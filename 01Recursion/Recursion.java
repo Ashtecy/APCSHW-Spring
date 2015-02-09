@@ -5,13 +5,19 @@ public class Recursion implements hw1{
     }
 
     public int fact(int n){
+	if (n<0){
+	    throw new IllegalArgumentException();
+	}	   
 	if(n==1){
 	    return 1;
 	}
 	return n*fact(n-1);
     }
-
+    
     public int fib(int n){
+	if (n<0){
+	    throw new IllegalArgumentException();
+	}
 	if(n==0){
 	    return 0;
 	}
@@ -22,6 +28,9 @@ public class Recursion implements hw1{
     }
 
     public double sqrt(double n){
+	if (n<0){
+	    throw new IllegalArgumentException();
+	}
 	return sqrt2(n,1);
     }
 
