@@ -76,7 +76,7 @@ public class KnightsTour{
 		   solve(x+1,y-2,currentMoveNumber)){
 		    return true;	   
 		}
-		board[x][y]=00;
+		board[x][y]=0;
 	    }
 	} catch(IndexOutOfBoundsException e){
 	    return false;
