@@ -53,8 +53,8 @@ public class NQueens{
     }
 
     public boolean solve(int queen,int x,int y){
-	System.out.println(this);
-	wait(200);
+	//System.out.println(this);
+	//wait(20);
 	if(queen==0){
 	    return true;
 	}
@@ -88,7 +88,7 @@ public class NQueens{
 		return false;
 	    }
 	}
-	for(int i=1;i<=Math.min(board.length-x,y);i++){
+	for(int i=1;i<=Math.min(board.length-x-1,y);i++){
 	    if(board[x+i][y-i]=='Q'){
 		return false;
 	    }
