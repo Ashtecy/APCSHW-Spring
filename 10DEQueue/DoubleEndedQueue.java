@@ -8,15 +8,20 @@ public class DoubleEndedQueue<T>{
 	A.addLast(9);
 	A.addLast(4);
 	A.addLast(8);
+	A.addFirst(6);
+	A.addFirst(3);
+       	A.addFirst(7);
 	System.out.println(A.toString());
+	A.removeLast();
+	A.removeFirst();
+	System.out.println(A.toString());
+	System.out.println(A.getFirst());
+	System.out.println(A.getLast());
     }
-
-
-
-
+    
     private Object[] queue;
     private int capacity,head,tail;
-
+    
     public DoubleEndedQueue(){
 	queue=new Object[10];
 	capacity=0;
@@ -26,11 +31,15 @@ public class DoubleEndedQueue<T>{
 
     public String toString(){
 	String ans="[";
-	for(int i=head;i<queue.length;i++){
-	    ans+=" "+queue[i];
-	}
-	if(tail<head){
-	    for(int i=0;i<=tail;i++){
+	if(tail>head){
+	    for(int i=head+1;i<tail;i++){
+		ans+=" "+queue[i];
+	    }    
+	}else{
+	    for(int i=head+1;i<queue.length;i++){
+		ans+=" "+queue[i];
+	    }
+	    for(int i=0;i<tail;i++){
 		ans+=" "+queue[i];
 	    }
 	}
@@ -76,27 +85,87 @@ public class DoubleEndedQueue<T>{
     public void capCheck(){
 	if(capacity==queue.length){
 	    Object[] newQueue=new Object[queue.length*2];
-	    int i=0;
-	    if(head<=tail){
-		for(int j=head;j<=tail;j++){
-		    newQueue[i]=queue[j];
-		    i++;
-		}
-	    }else{
-		for(int j=head;j<queue.length;j++){
-		    newQueue[i]=queue[j];
-		    i++;
-		}
-		for(int j=0;j<=tail;j++){
-		    newQueue[i]=queue[j];
-		}
-		head=0;
-		tail=queue.length-1;
-	    }
-	    queue=newQueue;
+	    resize(newQueue);
+	}else if(capacity<queue.length/4){
+	    Object[] newQueue=new Object[queue.length/2];
+	    resize(newQueue);
 	}
     }
-
+    
+    public void resize(Object[] newQueue){
+	int i=0;
+	if(head<=tail){
+	    for(int j=head+1;j<tail;j++){
+		newQueue[i]=queue[j];
+		i++;
+	    }
+	}else{
+	    for(int j=head+1;j<queue.length;j++){
+		newQueue[i]=queue[j];
+		i++;
+	    }
+	    for(int j=0;j<tail;j++){
+		newQueue[i]=queue[j];
+		i++;
+	    }
+	    head=0;
+	    tail=queue.length-1;
+	}
+	queue=newQueue;
+    }
+    
+    public T removeFirst(){
+	if(capacity==0){
+	    throw new NoSuchElementException();
+	}else{
+	    capCheck();
+	    capacity--;
+	    head++;
+	    if(head==queue.length){
+		head=0;
+	    }
+	    return (T)queue[head];
+	}
+    }
+    
+    public T removeLast(){
+	if(capacity==0){
+	    throw new NoSuchElementException();
+	}else{
+	    capCheck();
+	    capacity--;
+	    tail--;
+	    if(tail==-1){
+		tail=queue.length;
+	    }
+	    return (T)queue[tail];
+	}
+    }
+    
+    public T getFirst(){
+	if(capacity==0){
+	    throw new NoSuchElementException();
+	}else{
+	    int index=head+1;
+	    if(index==queue.length){
+		index=0;
+	    }
+	    return (T)queue[index];
+	}
+    }
+    
+    public T getLast(){
+	if(capacity==0){
+	    throw new NoSuchElementException();
+	}else{
+	    int index=tail-1;
+	    if(index==-1){
+		index=queue.length-1;
+	    }
+	    return (T)queue[index];
+	}
+    }
+    
 }
 	    
 		
