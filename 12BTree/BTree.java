@@ -14,12 +14,6 @@ public class BTree<E> {
 	root = null;
     }
 
-    /*======== public void add() ==========
-      Inputs:   E d
-      Returns: 
-      
-      Wrapper method for the recursive add()
-      ====================*/     
     public void add(E value){
 	TreeNode<E> newNode = new TreeNode<E>(value);
 	if(root==null){
@@ -29,17 +23,6 @@ public class BTree<E> {
 	}	  
     }
 
-    /*======== public void add() ==========
-      Inputs:   TreeNode<E> curr, TreeNode<E> bn  
-      Returns: 
-      
-      Adds bn to the tree rooted at curr. If curr has 
-      an available child space, then attach bn there.
-
-      Otherwise, try to add at the subtree rooted at
-      one of curr's children. Choose the child to be
-      added to randomly.
-      ====================*/
     private void add( TreeNode<E> curr,TreeNode<E> newNode){
 	if(curr.getFirst()==null){
 	    curr.setFirst(newNode);
@@ -74,7 +57,6 @@ public class BTree<E> {
       ====================*/
     public void preOrder( TreeNode<E> curr ) {
     }
-
 
     /*======== public void inOrder() ==========
       Inputs:   TreeNode<E> curr  
@@ -154,7 +136,6 @@ public class BTree<E> {
 	return "";
     }
 	
-
     public static void main( String[] args ) {
 
 	BTree<Integer> t = new BTree<Integer>();
@@ -171,4 +152,7 @@ public class BTree<E> {
 
 	System.out.println( t );
     }
+
 }
+	
+ 
