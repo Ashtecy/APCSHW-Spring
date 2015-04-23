@@ -55,7 +55,10 @@ public class BTree<E> {
       Prints out the elements in the tree by doing an
       pre-order Traversal
       ====================*/
-    public void preOrder( TreeNode<E> curr ) {
+    public void preOrder(TreeNode<E> curr){
+	System.out.println(curr.getData());
+	preOrder(curr.getFirst());
+	preOrder(curr.getSecond());
     }
 
     /*======== public void inOrder() ==========
