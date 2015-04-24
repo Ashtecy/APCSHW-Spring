@@ -48,58 +48,39 @@ public class BTree<E> {
 	System.out.println();
     }
 
-    /*======== public void preOrder() ==========
-      Inputs:   TreeNode<E> curr  
-      Returns: 
-      
-      Prints out the elements in the tree by doing an
-      pre-order Traversal
-      ====================*/
     public void preOrder(TreeNode<E> curr){
-	System.out.println(curr.getData());
-	preOrder(curr.getFirst());
-	preOrder(curr.getSecond());
+	if(curr!=null){
+	    System.out.print(curr.getData()+" ");
+	    preOrder(curr.getFirst());
+	    preOrder(curr.getSecond());
+	}
     }
 
-    /*======== public void inOrder() ==========
-      Inputs:   TreeNode<E> curr  
-      Returns: 
-      
-      Prints out the elements in the tree by doing an
-      in-order Traversal
-      ====================*/
-    public void inOrder( TreeNode<E> curr ) {
+    public void inOrder(TreeNode<E> curr){
+	if(curr!=null){
+	    inOrder(curr.getFirst());
+	    System.out.print(curr.getData()+" ");
+	    inOrder(curr.getSecond());
+	}
     }
 
-    /*======== public void postOrder() ==========
-      Inputs:   TreeNode<E> curr  
-      Returns: 
-      
-      Prints out the elements in the tree by doing a
-      post-order Traversal
-
-      04/05/12 08:56:34
-      jdyrlandweaver
-      ====================*/
-    public void postOrder( TreeNode<E> curr ) {
+    public void postOrder(TreeNode<E> curr){
+	if(curr!=null){
+	    preOrder(curr.getFirst());
+	    preOrder(curr.getSecond());
+	    System.out.print(curr.getData()+" ");
+	}
     }
     
-    /*======== public int getHeight()) ==========
-      Inputs:   
-      Returns: The height of the tree
-
-      Wrapper for the recursive getHeight method
-      ====================*/
-    public int getHeight() {
-	return getHeight( root );
+    public int getHeight(){
+	return getHeight(root);
     }
-    /*======== public int getHeight() ==========
-      Inputs:   TreeNode<E> curr  
-      Returns:  The height of the tree rooted at node curr
-      
-      ====================*/
-    public int getHeight( TreeNode<E> curr ) {
-	return -1;
+    public int getHeight(TreeNode<E> curr){
+	if(curr==null){
+	    return 0;
+	}else{
+	    return getHeight(curr.getFirst())+1;
+	} 
     }
 
     /*======== public String getLevel() ==========
@@ -142,7 +123,15 @@ public class BTree<E> {
     public static void main( String[] args ) {
 
 	BTree<Integer> t = new BTree<Integer>();
-
+	/*
+	BTree<Integer> u = new BTree<Integer>();
+	u.add(5);
+	u.add(6);
+	u.add(7);
+       	u.traverse( PRE_ORDER );
+	u.traverse( IN_ORDER );
+	u.traverse( POST_ORDER );
+	*/
 	for ( int i=0; i < 8; i++ ) 
 	    t.add( i );
 	System.out.println( "Pre-order: ");
@@ -152,7 +141,6 @@ public class BTree<E> {
 	System.out.println( "Post-order: ");
 	t.traverse( POST_ORDER );
 	System.out.println( "Height: " + t.getHeight() );
-
 	System.out.println( t );
     }
 

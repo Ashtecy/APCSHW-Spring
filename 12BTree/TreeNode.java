@@ -9,6 +9,9 @@ public class TreeNode<E>{
     public E getData(){
 	return data;
     }
+    public int hasChildren(){
+	return children.length;
+    }    
     public TreeNode<E> getFirst(){
 	return children[0];
     }
