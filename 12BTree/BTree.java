@@ -85,7 +85,8 @@ public class BTree<E> {
     private String getLevel(TreeNode<E> curr,int level){
 	if(curr==null){
 	    return "";
-	}else if(getHeight(curr)==level){
+	}
+	if(getHeight(curr)==level){
 	    return " "+curr.getData();
 	}
 	return getLevel(curr.getFirst(),level)+getLevel(curr.getSecond(),level);
