@@ -29,7 +29,7 @@ public class BTree<E> {
 	}else if(curr.getSecond()==null){
 	    curr.setSecond(newNode);
 	}else{
-	    Random rand=new Random();
+	    Random rand=new Random(System.currentTimeMillis());
 	    if(rand.nextInt(2)==0){
 		add(curr.getFirst(),newNode);
 	    }else{
@@ -78,46 +78,25 @@ public class BTree<E> {
     public int getHeight(TreeNode<E> curr){
 	if(curr==null){
 	    return 0;
-	}else{
-	    return getHeight(curr.getFirst())+1;
-	} 
-    }
-
-    /*======== public String getLevel() ==========
-      Inputs:   TreeNode<E> curr
-                int level
-                int currLevel  
-      Returns: A string containing all the elements on the
-               given level, ordered left -> right
-      
-      ====================*/
-    private String getLevel( TreeNode<E> curr, int level, int currLevel ) {
-	return "";
+	}
+	return 1+Math.max(getHeight(curr.getFirst()),getHeight(curr.getSecond()));
     }
     
-    /*======== public String toString()) ==========
-      Inputs:   
-      Returns: A string representation of the tree
-     
-      This string should display each level as a separate line.
-      A simple version might look something like this:
-
-      0
-      1 2
-      3 4 5
-
-      Note that you cannot tell exactly where 3, 4 and 5 lie.
-      That is ok, but if you want a CHALLENGE, you can try to
-      get the output to look nicer, something like this:
-             0
-
-          1      2
-
-            3  4   5
-
-      ====================*/
+    private String getLevel(TreeNode<E> curr,int level){
+	if(curr==null){
+	    return "";
+	}else if(getHeight(curr)==level){
+	    return " "+curr.getData();
+	}
+	return getLevel(curr.getFirst(),level)+getLevel(curr.getSecond(),level);
+    }
+    
     public String toString() {
-	return "";
+	String tree="";
+	for(int i=getHeight();i>0;i--){
+	    tree+=getLevel(root,i)+"\n";
+	}
+	return tree;
     }
 	
     public static void main( String[] args ) {
@@ -131,8 +110,9 @@ public class BTree<E> {
        	u.traverse( PRE_ORDER );
 	u.traverse( IN_ORDER );
 	u.traverse( POST_ORDER );
+	System.out.println(u.getHeight());
 	*/
-	for ( int i=0; i < 8; i++ ) 
+	for ( int i=0; i < 6; i++ ) 
 	    t.add( i );
 	System.out.println( "Pre-order: ");
 	t.traverse( PRE_ORDER );
