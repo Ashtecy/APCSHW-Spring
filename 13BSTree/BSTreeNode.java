@@ -1,4 +1,4 @@
-public class TreeNode<T implements Comparable>{
+public class TreeNode<T extends Comparable>{
     
     private T data;
     private TreeNode[] children=new TreeNode[2];
@@ -32,7 +32,7 @@ public class TreeNode<T implements Comparable>{
     public int getCount(){
 	return counter;
     }
-    public void addCount(){
+    public void incCount(){
 	count++;
     }
 }

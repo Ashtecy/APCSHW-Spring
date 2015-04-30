@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class BSTree <T implements Comparable> {
+public class BSTree <T extends Comparable> {
 
     private BSTreeNode<T> root;
 
@@ -31,8 +31,17 @@ public class BSTree <T implements Comparable> {
 	if(curr==null){
 	    return t;
 	}
-	int x = curr.getData().compareTo();
-	if(curr.getData())
+	int x = curr.getData().compareTo(t.getData());
+	if(x==0){
+	    cur.incCount();
+	}
+	if(x<0){
+	    curr.setFirst(add(curr.getFirst(),t));
+	}
+	if(x>0){
+	    curr.setSecond(add(curr.getSecond(),t));
+	}
+	return curr;
     }
 
     /*======== public void remove() ==========
