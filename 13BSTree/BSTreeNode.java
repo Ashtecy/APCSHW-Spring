@@ -1,10 +1,12 @@
-public class TreeNode<T extends Comparable>{
+public class TreeNode<T implements Comparable>{
     
     private T data;
     private TreeNode[] children=new TreeNode[2];
+    private int counter;
 
     public TreeNode(T data){
-	setData(data);
+	this.data=data;
+	counter=1;
     }
     public T getData(){
 	return data;
@@ -26,5 +28,11 @@ public class TreeNode<T extends Comparable>{
     }
     public void setSecond(TreeNode<T> child){
 	children[1]=child;
+    }
+    public int getCount(){
+	return counter;
+    }
+    public void addCount(){
+	count++;
     }
 }

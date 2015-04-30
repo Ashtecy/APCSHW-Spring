@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class BSTree <T extends Comparable> {
+public class BSTree <T implements Comparable> {
 
     private BSTreeNode<T> root;
 
@@ -16,12 +16,6 @@ public class BSTree <T extends Comparable> {
 	return (t.getLeft() == null && t.getRight() == null);
     }
 
-    /*======== public void add() ==========
-      Inputs:   T c  
-      Returns: 
-
-      Wrapper for the recursive add method
-      ====================*/
     public void add( T c ) {
 	root = add( root, new BSTreeNode<T>(c) );
     }
@@ -34,7 +28,11 @@ public class BSTree <T extends Comparable> {
       Add t to the correct place in the tree rooted at curr.
       ====================*/
     private BSTreeNode<T> add(BSTreeNode<T> curr, BSTreeNode<T> t) {
-	return null;
+	if(curr==null){
+	    return t;
+	}
+	int x = curr.getData().compareTo();
+	if(curr.getData())
     }
 
     /*======== public void remove() ==========
