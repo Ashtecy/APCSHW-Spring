@@ -1,10 +1,10 @@
-public class TreeNode<T extends Comparable>{
+public class BSTreeNode<T extends Comparable>{
     
     private T data;
-    private TreeNode[] children=new TreeNode[2];
+    private BSTreeNode[] children=new BSTreeNode[2];
     private int counter;
 
-    public TreeNode(T data){
+    public BSTreeNode(T data){
 	this.data=data;
 	counter=1;
     }
@@ -23,10 +23,10 @@ public class TreeNode<T extends Comparable>{
     public void setData(T data){
 	this.data=data;
     }
-    public void setFirst(TreeNode<T> child){
+    public void setFirst(BSTreeNode<T> child){
 	children[0]=child;
     }
-    public void setSecond(TreeNode<T> child){
+    public void setSecond(BSTreeNode<T> child){
 	children[1]=child;
     }
     public int getCount(){
