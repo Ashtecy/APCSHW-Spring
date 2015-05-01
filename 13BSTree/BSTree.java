@@ -13,7 +13,7 @@ public class BSTree <T extends Comparable> {
 	return root == null;
     }
     public boolean isLeaf( BSTreeNode<T> t ) {
-	return (t.getLeft() == null && t.getRight() == null);
+	return (t.getFirst() == null && t.getSecond() == null);
     }
 
     public void add( T c ) {
@@ -32,9 +32,10 @@ public class BSTree <T extends Comparable> {
 	    return t;
 	}
 	int x = curr.getData().compareTo(t.getData());
-	if(x==0){
-	    cur.incCount();
+	/*	if(x==0){
+	    curr.incCount();
 	}
+	*/
 	if(x<0){
 	    curr.setFirst(add(curr.getFirst(),t));
 	}
@@ -88,9 +89,9 @@ public class BSTree <T extends Comparable> {
     public void inOrderHelper( BSTreeNode<T> t ) {
 	if (t == null) 
 	    return;
-	inOrderHelper( t.getLeft() );
+	inOrderHelper( t.getFirst() );
 	System.out.print( t.getData() + " ");
-	inOrderHelper( t.getRight() );
+	inOrderHelper( t.getSecond() );
     }
 
    
