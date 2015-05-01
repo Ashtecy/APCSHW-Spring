@@ -16,18 +16,21 @@ public class BSTree <T extends Comparable> {
 	return (t.getFirst() == null && t.getSecond() == null);
     }
 
-    public void add( T c ) {
-	root = add( root, new BSTreeNode<T>(c) );
+    public int getHeight(){
+	return getHeight(root);
+    }
+    public int getHeight(BSTreeNode<T> curr){
+	if(curr==null){
+	    return 0;
+	}
+	return 1+Math.max(getHeight(curr.getFirst()),getHeight(curr.getSecond()));
     }
 
-    /*======== public BSTreeNode<T> add() ==========
-      Inputs:  BSTreeNode<T> curr
-               BSTreeNode<T> t 
-      Returns: 
+    public void add(T c){
+	root = add( root, new BSTreeNode<T>(c));
+    }
 
-      Add t to the correct place in the tree rooted at curr.
-      ====================*/
-    private BSTreeNode<T> add(BSTreeNode<T> curr, BSTreeNode<T> t) {
+    private BSTreeNode<T> add(BSTreeNode<T> curr,BSTreeNode<T> t) {
 	if(curr==null){
 	    return t;
 	}
@@ -51,8 +54,8 @@ public class BSTree <T extends Comparable> {
       
       Wrapper for the recursive remove method
       ====================*/
-    public void remove( T c ) {
-	root = remove( root, c );
+    public void remove(T c) {
+	root = remove(root,c);
     }
 
     /*======== public BSTreeNode<T> remove() ==========
@@ -63,11 +66,11 @@ public class BSTree <T extends Comparable> {
       Should remove the value c from the tree rooted at
       curr, if it exists.
       ====================*/
-    private BSTreeNode<T> remove( BSTreeNode<T> curr, T c ) {
+    private BSTreeNode<T> remove(BSTreeNode<T> curr,T c) {
 	return null;
     }
 
-
+    
     /*======== public void inOrder()) ==========
       Inputs:   
       Returns: 
@@ -75,7 +78,7 @@ public class BSTree <T extends Comparable> {
       Wrapper for the recursive inOrder method
       ====================*/
     public void inOrder() {
-	inOrderHelper( root );
+	inOrderHelper(root);
 	System.out.println();
     }
 
@@ -93,10 +96,96 @@ public class BSTree <T extends Comparable> {
 	System.out.print( t.getData() + " ");
 	inOrderHelper( t.getSecond() );
     }
-
-   
+ 
+/*
+  stolen from: Dennis Yatunin
+*/
+    
+    private int maxLength() {
+	// returns the minimum number of characters required
+	// to print the data from any node in the tree
+	if (root == null)
+	    return 0;
+	return maxLength(root);
+    }
+    
+    private int maxLength(BSTreeNode<T> curr) {
+	int max = curr.toString().length();
+	int temp;
+	if (curr.getFirst() != null) {
+	    temp = maxLength(curr.getFirst());
+	    if (temp > max)
+		max = temp;
+	}
+	if (curr.getSecond() != null) {
+	    temp = maxLength(curr.getSecond());
+	    if (temp > max)
+		max = temp;
+	}
+	return max;
+    }
+    
+    private String spaces(double n) {
+	// returns a String of n spaces
+	String result = "";
+	for (int i = 0; i < n; i++)
+	    result += " ";
+	return result;
+    }
+    
+    private String getLevel(BSTreeNode<T> curr,int currLevel,int targetLevel,
+			    int height,int wordLength) {
+	if (currLevel == 1){
+	    return curr.toString() + 
+		spaces(wordLength - curr.toString().length()) +
+		spaces(wordLength * Math.pow(2, height - targetLevel + 1) - wordLength);
+	}
+	String result = "";
+	if (curr.getFirst() != null){
+	    result += getLevel(curr.getFirst(), currLevel - 1, targetLevel, height, wordLength);
+	}else{
+	    result += spaces(wordLength * Math.pow(2, height - targetLevel + currLevel - 1));
+	}
+	if (curr.getSecond() != null){
+	    result += getLevel(curr.getSecond(), currLevel - 1, targetLevel, height, wordLength);
+	}else{ 
+	    result += spaces(wordLength * Math.pow(2, height - targetLevel + currLevel - 1));
+	}
+	return result;
+    }
+    
+    public String toString() {
+	if (root == null)
+	    return "";
+	String result = "";
+	int height = getHeight();
+	int wordLength = maxLength();
+	// add the every level of the tree except the last one
+	for (int level = 1; level < height; level++){
+	    // remove extra spaces from the end of each level's String to prevent lines from
+	    // getting unnecessarily long and add spaces to the front of each level's String
+	    // to keep everything centered
+	    result += spaces(wordLength * Math.pow(2, height - level) - wordLength) +
+		getLevel(root, level, level, height, wordLength).replaceFirst("\\s+$", "") +
+		"\n";
+	}
+	// now add the last level (level = height)
+	result += getLevel(root, height, height, height, wordLength).replaceFirst("\\s+$", "");
+	
+	return result;
+    }
+    
     public static void main( String[] args ) {
-
+	BSTree<Integer> t = new BSTree<Integer>();
+	
+	t.add(25);
+	t.add(34);
+	t.add(20);
+	t.add(19);
+	t.add(55);
+	t.inOrder();
+	System.out.println(t.toString());
+	
     }
 
 }

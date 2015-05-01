@@ -29,6 +29,11 @@ public class BSTreeNode<T extends Comparable>{
     public void setSecond(BSTreeNode<T> child){
 	children[1]=child;
     }
+    public String toString(){
+	String result="";
+	result+=data;
+	return result;
+    }
     /* public int getCount(){
 	return counter;
     }
