@@ -4,9 +4,15 @@ import java.util.*;
 public class BSTree <T extends Comparable> {
 
     private BSTreeNode<T> root;
+    private Random r;
 
     public BSTree() {
 	root = null;
+	r = new Random();
+    }
+    public BSTree(long seed){
+	root = null;
+	r = new Random(seed);
     }
 
     public boolean isEmpty() {
@@ -39,56 +45,62 @@ public class BSTree <T extends Comparable> {
 	    curr.incCount();
 	}
 	*/
-	if(x<0){
+	if(x>0){
 	    curr.setFirst(add(curr.getFirst(),t));
 	}
-	if(x>0){
+	if(x<0){
 	    curr.setSecond(add(curr.getSecond(),t));
 	}
 	return curr;
     }
 
-    /*======== public void remove() ==========
-      Inputs:   T c  
-      Returns: 
-      
-      Wrapper for the recursive remove method
-      ====================*/
     public void remove(T c) {
 	root = remove(root,c);
     }
-
-    /*======== public BSTreeNode<T> remove() ==========
-      Inputs:   BSTreeNode<T> curr
-		T c
-      Returns: 
-
-      Should remove the value c from the tree rooted at
-      curr, if it exists.
-      ====================*/
-    private BSTreeNode<T> remove(BSTreeNode<T> curr,T c) {
-	return null;
-    }
-
     
-    /*======== public void inOrder()) ==========
-      Inputs:   
-      Returns: 
-
-      Wrapper for the recursive inOrder method
-      ====================*/
+    private BSTreeNode<T> remove(BSTreeNode<T> curr, T c){
+	if (curr == null){
+	    return null;
+	}
+	if (curr.getData().compareTo(c) == 0){
+	    if (isLeaf(curr)){
+		return null;
+	    }else if (curr.getFirst() == null){
+		return curr.getFirst();
+	    }else if (curr.getFirst() == null){
+		return curr.getSecond();
+	    }else{
+		BSTreeNode<T> holder;
+		if (r.nextInt(2) == 0){
+		    holder = curr.getSecond();
+		    while (holder.getFirst() != null){
+			holder = holder.getFirst();
+		    }
+		    curr.setData(holder.getData());
+		    curr.setSecond(remove(curr.getSecond(),holder.getData()));
+		}else{
+		    holder = curr.getFirst();
+		    while (holder.getSecond() != null){
+			holder = holder.getSecond();
+		    }
+		    curr.setData(holder.getData());
+		    curr.setFirst(remove(curr.getFirst(), holder.getData()));
+		}
+	    }
+	}
+	else if (curr.getData().compareTo(c) < 0){
+	    curr.setSecond(remove(curr.getSecond(), c));
+	}else if (curr.getData().compareTo(c) > 0){
+	    curr.setFirst(remove(curr.getFirst(), c));
+	}
+	return curr;
+    }
+    
     public void inOrder() {
 	inOrderHelper(root);
 	System.out.println();
     }
 
-    /*======== public void inOrderHelper() ==========
-      Inputs:   BSTreeNode<T> t  
-      Returns: 
-      
-      Performs an in-order traversal for the tree with 
-      root t.
-      ====================*/
     public void inOrderHelper( BSTreeNode<T> t ) {
 	if (t == null) 
 	    return;
@@ -184,6 +196,8 @@ public class BSTree <T extends Comparable> {
 	t.add(19);
 	t.add(55);
 	t.inOrder();
+	System.out.println(t.toString());
+	t.remove(20);
 	System.out.println(t.toString());
 	
     }
