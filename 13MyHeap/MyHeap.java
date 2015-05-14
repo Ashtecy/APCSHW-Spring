@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class MyHeap{
     
     private int[] heap;
@@ -21,45 +23,81 @@ public class MyHeap{
 	    heap[0]++;
 	}else{
 	    checkSize();
-	    if(heap[(heap[0]+1)/2] > val){
-		heap[heap[0]+1]=val;
-		heap[0]++;
+	    if(mode){
+		if(heap[(heap[0]+1)/2] > val){
+		    heap[heap[0]+1]=val;
+		    heap[0]++;
+		}else{
+		    checkParent(heap[0]+1,val);
+		    heap[0]++;
+		}
 	    }else{
-		checkParent(heap[0]+1,val);
-       	    }
+		if(heap[(heap[0]+1)/2] < val){
+		    heap[heap[0]+1]=val;
+		    heap[0]++;
+		}else{
+		    checkParent(heap[0]+1,val);
+		    heap[0]++;
+		}
+	    }
 	}
     }
     
     public void checkParent(int pos,int val){
 	if(pos==1){
 	    heap[heap[0]+1]=heap[1];
-	    heap[0]=val;
-	    heap[0]++;
-	    checkOrder(1);
-	}else if(heap[pos/2] > val){
-	    heap[heap[0]+1]=heap[pos];
-	    heap[pos]=val;
-	    heap[0]++;
-	    checkOrder(pos);
+	    heap[1]=val;
+	    checkOrder(2);
+	    checkOrder(3);
+	}else if(mode){
+	    if(heap[pos/2] > val){
+		heap[heap[0]+1]=heap[pos];
+		heap[pos]=val;
+		checkOrder(2*pos);
+		checkOrder(2*pos+1);
+	    }else{
+		checkParent(pos/2,val);
+	    }
 	}else{
-	    checkParent(pos/2,val);
+	    if(heap[pos/2] < val){
+		heap[heap[0]+1]=heap[pos];
+		heap[pos]=val;
+		checkOrder(2*pos);
+		checkOrder(2*pos+1);
+	    }else{
+		checkParent(pos/2,val);
+	    }
 	}
     }
-
+    
     public void checkOrder(int pos){
 	if(2*pos<=heap[0]){
-	    if(heap[pos]<heap[2*pos]){
-		swap(2*pos);
-	    }
-	    if(heap[pos]<heap[2*pos+1]){
-		swap(2*pos+1);
-		checkOrder(pos);
-	    }
+	    if(mode){
+		if(heap[pos]<heap[2*pos]){
+		    swap(2*pos);
+		}
+		if(pos*2+1<=heap[0]){
+		    if(heap[pos]<heap[2*pos+1]){
+			swap(2*pos+1);
+			checkOrder(pos);
+		    }
+		}
+	    }else{
+		if(heap[pos]>heap[2*pos]){
+		    swap(2*pos);
+		}
+		if(pos*2+1<=heap[0]){
+		    if(heap[pos]>heap[2*pos+1]){
+			swap(2*pos+1);
+			checkOrder(pos);
+		    }
+		}
+	    }		    
 	    checkOrder(2*pos);
 	    checkOrder(2*pos+1);
 	}
     }
-
+    
     public void swap(int pos){
 	int temp=heap[pos];
 	heap[pos]=heap[pos/2];
@@ -79,7 +117,7 @@ public class MyHeap{
     }
 
     public void checkSize(){
-	if(heap.length==heap[0]+1){
+	if(heap.length==heap[0]+2){
 	    resize(true);
 	}else if(heap.length/4>=heap[0]){
 	    resize(false);
@@ -96,6 +134,7 @@ public class MyHeap{
 	for(int i=0;i<=heap[0]+1;i++){
 	    newHeap[i]=heap[i];
 	}
+	heap=newHeap;
     }
 
     public String toString(){
@@ -108,17 +147,11 @@ public class MyHeap{
     }
 
     public static void main(String[]args){
-	MyHeap f = new MyHeap();
-	System.out.println(f.toString());
-	f.add(8);
-	System.out.println(f.toString());
-	f.add(5);
-	System.out.println(f.toString());
-	f.add(4);
-	System.out.println(f.toString());
-	f.add(7);
-	System.out.println(f.toString());
-	f.remove();
+	MyHeap f = new MyHeap(false);
+	Random r=new Random();
+	for(int i=0;i<15;i++){
+	    f.add(r.nextInt(9)+1);
+	}
 	System.out.println(f.toString());
     }
 }
