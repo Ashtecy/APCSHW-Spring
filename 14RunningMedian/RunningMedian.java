@@ -18,7 +18,7 @@ public class RunningMedian{
 	    throw new NoSuchElementException();
 	}
 	if(max.size()==min.size()){
-	    return (max.peek()+min.peek())/2;
+	    return ((max.peek()+min.peek())/2);
 	}
 	if(max.size()>min.size()){
 	    return max.peek();
@@ -39,13 +39,13 @@ public class RunningMedian{
     }
 
     public String toString(){
-	return max.toString()+min.toString();
+	return max.toString()+"\n"+min.toString();
     }
 
     public static void main(String[]args){
 	RunningMedian f = new RunningMedian();
 	Random r=new Random();
-	for(int i=0;i<5;i++){
+	for(int i=0;i<4;i++){
 	    f.add(r.nextInt(9)+1);
 	}
 	System.out.println("Median: "+f.getMedian());
